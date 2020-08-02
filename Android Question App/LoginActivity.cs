@@ -65,12 +65,25 @@ namespace Android_Question_App
         private void NewListItem_Click(object sender, EventArgs e)
         {
             var listItem = (TextView)sender;
+            ThreadPool.QueueUserWorkItem(o => fetchSubredditSidebar(listItem));
+        }
+
+        private void fetchSubredditSidebar(TextView listItem) {
             var subredditName = listItem.Text;
+            RunOnUiThread(() => {
+                listItem.Enabled = false;
+                listItem.Text = "Downloading...";
+            });
             var sidebarHtml = new WebClient().DownloadString("http://www.reddit.com/" + subredditName + "/about/sidebar");
 
             var intent = new Intent(this, typeof(SidebarActivity));
             intent.PutExtra("sidebarHtml", sidebarHtml);
             this.StartActivity(intent);
+
+            RunOnUiThread(() => {
+                listItem.Enabled = true;
+                listItem.Text = subredditName;
+            });
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
