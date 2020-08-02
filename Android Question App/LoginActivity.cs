@@ -51,6 +51,7 @@ namespace Android_Question_App
                 foreach (var subreddit in subreddits["data"]["children"] as JArray) {
                     var name = subreddit["data"]["display_name_prefixed"].ToString();
                     var newListItem = new TextView(this);
+                    newListItem.SetPadding(16, 0, 16, 32);
                     newListItem.Text = name;
                     newListItem.Click += NewListItem_Click;
 
