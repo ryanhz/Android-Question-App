@@ -12,12 +12,17 @@ namespace Android_Question_App
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            var sidebarHtml = Intent.Extras.GetString("sidebarHtml");
+            var sidebarUrl = Intent.Extras.GetString("sidebarUrl");
             var webView = new WebView(this);
-            var metrics = Resources.DisplayMetrics;
+            webView.SetWebViewClient(new WebViewClient());
+            WebSettings webSettings = webView.Settings;
+            webSettings.JavaScriptEnabled = true;
+            webSettings.UserAgentString = "Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36";
+            webSettings.SetAppCacheEnabled(true);
 
+            var metrics = Resources.DisplayMetrics;
             AddContentView(webView, new ViewGroup.LayoutParams(metrics.WidthPixels, metrics.HeightPixels));
-            webView.LoadData(sidebarHtml, "text/html", "utf-8");
+            webView.LoadUrl(sidebarUrl);
         }
     }
 }

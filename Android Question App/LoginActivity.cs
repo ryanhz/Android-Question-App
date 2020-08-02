@@ -71,29 +71,11 @@ namespace Android_Question_App
         private void onSubredditClicked(object sender, EventArgs e)
         {
             var listItem = (TextView)sender;
-            ThreadPool.QueueUserWorkItem(o => fetchSubredditSidebar(listItem));
-        }
-
-        private void fetchSubredditSidebar(TextView listItem) {
             var subredditName = listItem.Text;
-            RunOnUiThread(() => {
-                listItem.Enabled = false;
-                listItem.Text = GetString(Resource.String.downloading);
-                listItem.PaintFlags = Android.Graphics.PaintFlags.LinearText;
-                listItem.SetTextColor(Android.Graphics.Color.Gray);
-            });
-            var sidebarHtml = new WebClient().DownloadString("http://www.reddit.com/" + subredditName + "/about/sidebar");
-
+            var sidebarUrl = "http://www.reddit.com/" + subredditName + "/about/sidebar";
             var intent = new Intent(this, typeof(SidebarActivity));
-            intent.PutExtra("sidebarHtml", sidebarHtml);
+            intent.PutExtra("sidebarUrl", sidebarUrl);
             this.StartActivity(intent);
-
-            RunOnUiThread(() => {
-                listItem.Enabled = true;
-                listItem.Text = subredditName;
-                listItem.PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
-                listItem.SetTextColor(Android.Graphics.Color.Blue);
-            });
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
