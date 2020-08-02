@@ -36,12 +36,15 @@ namespace Android_Question_App
             hideKeyboard();
             Button searchButton = FindViewById<Button>(Resource.Id.search_button);
             searchButton.Enabled = false;
-            searchButton.Text = "Searching...";
+            searchButton.Text = GetString(Resource.String.searching);
             ThreadPool.QueueUserWorkItem(o => fetchSubReddits());
         }
 
         private void fetchSubReddits() {
             var query = FindViewById<TextInputEditText>(Resource.Id.textInput1).Text;
+            if(query==null || query.Trim().Equals("")) {
+                return;
+			}
             var json = new WebClient().DownloadString("http://www.reddit.com/subreddits/search.json?q=" + query);
             var subreddits = JsonConvert.DeserializeObject<JObject>(json);
 
@@ -61,7 +64,7 @@ namespace Android_Question_App
                 }
                 Button searchButton = FindViewById<Button>(Resource.Id.search_button);
                 searchButton.Enabled = true;
-                searchButton.Text = "Search";
+                searchButton.Text = GetString(Resource.String.search);
             });
         }
 
@@ -75,7 +78,7 @@ namespace Android_Question_App
             var subredditName = listItem.Text;
             RunOnUiThread(() => {
                 listItem.Enabled = false;
-                listItem.Text = "Downloading...";
+                listItem.Text = GetString(Resource.String.downloading);
                 listItem.PaintFlags = Android.Graphics.PaintFlags.LinearText;
                 listItem.SetTextColor(Android.Graphics.Color.Gray);
             });

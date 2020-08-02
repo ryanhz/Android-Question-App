@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search for a subreddit"
+            android:text="@string/search_for_a_subreddit"
             android:textAlignment="center"
             android:textSize="32px"/>
         <android.support.design.widget.TextInputEditText
@@ -22,13 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="32px"
-            android:hint="Search"/>
+            android:hint="@string/search"/>
         <Button
             android:id="@id/search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="32px"
-            android:text="Search"/>
+            android:text="@string/search"/>
         
         <ScrollView
             android:layout_width="match_parent"
