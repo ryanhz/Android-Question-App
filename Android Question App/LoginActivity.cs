@@ -28,10 +28,10 @@ namespace Android_Question_App
             SetSupportActionBar(toolbar);
 
             Button searchButton = FindViewById<Button>(Resource.Id.search_button);
-            searchButton.Click += SearchButton_Click;
+            searchButton.Click += onSearchButtonClicked;
         }
 
-        private void SearchButton_Click(object sender, EventArgs e)
+        private void onSearchButtonClicked(object sender, EventArgs e)
         {
             hideKeyboard();
             Button searchButton = FindViewById<Button>(Resource.Id.search_button);
@@ -55,7 +55,7 @@ namespace Android_Question_App
                     newListItem.PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
                     newListItem.SetTextColor(Android.Graphics.Color.Blue);
                     newListItem.Text = name;
-                    newListItem.Click += NewListItem_Click;
+                    newListItem.Click += onSubredditClicked;
 
                     subredditList.AddView(newListItem);
                 }
@@ -65,7 +65,7 @@ namespace Android_Question_App
             });
         }
 
-        private void NewListItem_Click(object sender, EventArgs e)
+        private void onSubredditClicked(object sender, EventArgs e)
         {
             var listItem = (TextView)sender;
             ThreadPool.QueueUserWorkItem(o => fetchSubredditSidebar(listItem));
