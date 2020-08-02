@@ -35,11 +35,11 @@ namespace Android_Question_App
             var json = new WebClient().DownloadString("http://www.reddit.com/subreddits/search.json?q=" + FindViewById<TextInputEditText>(Resource.Id.textInput1).Text);
             var subreddits = JsonConvert.DeserializeObject<JObject>(json);
 
+            var subredditList = FindViewById<LinearLayout>(Resource.Id.subreddit__list);
+            subredditList.RemoveAllViewsInLayout();
             foreach (var subreddit in subreddits["data"]["children"] as JArray)
             {
                 var name = subreddit["data"]["display_name_prefixed"].ToString();
-
-                var subredditList = FindViewById<LinearLayout>(Resource.Id.subreddit__list);
                 var newListItem = new TextView(this);
                 newListItem.Text = name;
                 newListItem.Click += NewListItem_Click;
