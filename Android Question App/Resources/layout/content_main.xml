@@ -19,8 +19,9 @@
             android:textSize="32px"/>
         <android.support.design.widget.TextInputEditText
             android:id="@+id/textInput1"
-            android:layout_width="360px"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="32px"
             android:hint="Search"/>
         <Button
             android:id="@id/search_button"
@@ -36,7 +37,8 @@
                 android:id="@+id/subreddit__list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                android:layout_margin="32px"/>
         </ScrollView>
     </LinearLayout>
 
