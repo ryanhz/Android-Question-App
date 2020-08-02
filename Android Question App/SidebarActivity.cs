@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Webkit;
-using Android.Widget;
 
 namespace Android_Question_App
 {
@@ -21,7 +14,9 @@ namespace Android_Question_App
             base.OnCreate(savedInstanceState);
             var sidebarHtml = Intent.Extras.GetString("sidebarHtml");
             var webView = new WebView(this);
-            AddContentView(webView, new ViewGroup.LayoutParams(800, 1600));
+            var metrics = Resources.DisplayMetrics;
+
+            AddContentView(webView, new ViewGroup.LayoutParams(metrics.WidthPixels, metrics.HeightPixels));
             webView.LoadData(sidebarHtml, "text/html", "utf-8");
         }
     }
