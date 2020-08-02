@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -33,20 +34,32 @@ namespace Android_Question_App
         private void SearchButton_Click(object sender, EventArgs e)
         {
             hideKeyboard();
-            var json = new WebClient().DownloadString("http://www.reddit.com/subreddits/search.json?q=" + FindViewById<TextInputEditText>(Resource.Id.textInput1).Text);
+            Button searchButton = FindViewById<Button>(Resource.Id.search_button);
+            searchButton.Enabled = false;
+            searchButton.Text = "Searching...";
+            ThreadPool.QueueUserWorkItem(o => fetchSubReddits());
+        }
+
+        private void fetchSubReddits() {
+            var query = FindViewById<TextInputEditText>(Resource.Id.textInput1).Text;
+            var json = new WebClient().DownloadString("http://www.reddit.com/subreddits/search.json?q=" + query);
             var subreddits = JsonConvert.DeserializeObject<JObject>(json);
 
-            var subredditList = FindViewById<LinearLayout>(Resource.Id.subreddit__list);
-            subredditList.RemoveAllViewsInLayout();
-            foreach (var subreddit in subreddits["data"]["children"] as JArray)
-            {
-                var name = subreddit["data"]["display_name_prefixed"].ToString();
-                var newListItem = new TextView(this);
-                newListItem.Text = name;
-                newListItem.Click += NewListItem_Click;
+            RunOnUiThread(() => {
+                var subredditList = FindViewById<LinearLayout>(Resource.Id.subreddit__list);
+                subredditList.RemoveAllViewsInLayout();
+                foreach (var subreddit in subreddits["data"]["children"] as JArray) {
+                    var name = subreddit["data"]["display_name_prefixed"].ToString();
+                    var newListItem = new TextView(this);
+                    newListItem.Text = name;
+                    newListItem.Click += NewListItem_Click;
 
-                subredditList.AddView(newListItem);
-            }
+                    subredditList.AddView(newListItem);
+                }
+                Button searchButton = FindViewById<Button>(Resource.Id.search_button);
+                searchButton.Enabled = true;
+                searchButton.Text = "Search";
+            });
         }
 
         private void NewListItem_Click(object sender, EventArgs e)
