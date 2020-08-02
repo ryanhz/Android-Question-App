@@ -34,17 +34,17 @@ namespace Android_Question_App
         private void onSearchButtonClicked(object sender, EventArgs e)
         {
             hideKeyboard();
+            var query = FindViewById<TextInputEditText>(Resource.Id.textInput1).Text;
+            if (query == null || query.Trim().Equals("")) {
+                return;
+            }
             Button searchButton = FindViewById<Button>(Resource.Id.search_button);
             searchButton.Enabled = false;
             searchButton.Text = GetString(Resource.String.searching);
-            ThreadPool.QueueUserWorkItem(o => fetchSubReddits());
+            ThreadPool.QueueUserWorkItem(o => fetchSubReddits(query));
         }
 
-        private void fetchSubReddits() {
-            var query = FindViewById<TextInputEditText>(Resource.Id.textInput1).Text;
-            if(query==null || query.Trim().Equals("")) {
-                return;
-			}
+        private void fetchSubReddits(String query) {
             var json = new WebClient().DownloadString("http://www.reddit.com/subreddits/search.json?q=" + query);
             var subreddits = JsonConvert.DeserializeObject<JObject>(json);
 
