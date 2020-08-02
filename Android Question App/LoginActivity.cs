@@ -52,6 +52,8 @@ namespace Android_Question_App
                     var name = subreddit["data"]["display_name_prefixed"].ToString();
                     var newListItem = new TextView(this);
                     newListItem.SetPadding(16, 0, 16, 32);
+                    newListItem.PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
+                    newListItem.SetTextColor(Android.Graphics.Color.Blue);
                     newListItem.Text = name;
                     newListItem.Click += NewListItem_Click;
 
@@ -74,6 +76,8 @@ namespace Android_Question_App
             RunOnUiThread(() => {
                 listItem.Enabled = false;
                 listItem.Text = "Downloading...";
+                listItem.PaintFlags = Android.Graphics.PaintFlags.LinearText;
+                listItem.SetTextColor(Android.Graphics.Color.Gray);
             });
             var sidebarHtml = new WebClient().DownloadString("http://www.reddit.com/" + subredditName + "/about/sidebar");
 
@@ -84,6 +88,8 @@ namespace Android_Question_App
             RunOnUiThread(() => {
                 listItem.Enabled = true;
                 listItem.Text = subredditName;
+                listItem.PaintFlags = Android.Graphics.PaintFlags.UnderlineText;
+                listItem.SetTextColor(Android.Graphics.Color.Blue);
             });
         }
 
