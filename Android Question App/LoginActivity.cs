@@ -32,6 +32,7 @@ namespace Android_Question_App
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
+            hideKeyboard();
             var json = new WebClient().DownloadString("http://www.reddit.com/subreddits/search.json?q=" + FindViewById<TextInputEditText>(Resource.Id.textInput1).Text);
             var subreddits = JsonConvert.DeserializeObject<JObject>(json);
 
@@ -76,6 +77,12 @@ namespace Android_Question_App
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-	}
+
+        private void hideKeyboard() {
+            var textInput = FindViewById<TextInputEditText>(Resource.Id.textInput1);
+            textInput.Enabled = false;
+            textInput.Enabled = true;
+        }
+    }
 }
 
